@@ -1,65 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Shared Links</title>
     <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
-    <div id="container">
-        <video id="video">
-            <source src="https://link.ap1.storjshare.io/jvtni5ut5sfwbonuelmikozncjqa/ujav%2F1080%20(13).mp4?wrap=0" type="video/mp4" />
-        </video>
-    </div>
+    <div id="container"><video id="video"></video></div>
     <script>
-        var myFP = fluidPlayer(
-        'video',	{
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    fetch(`https://raw.githubusercontent.com/shorted-links/shorted-links.github.io/main/links.json`, {
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      const link = data['src'];
+      console.log(data);
+      let source = document.createElement('source');
+      source.setAttribute('src', link);
+      source.setAttribute('type', 'video/mp4');
+      let video = document.getElementById('video');
+      video.appendChild(source);
+
+      let myFP = fluidPlayer(
+        'video', {
         layoutControls: {
-            primaryColor:           false,
-            playButtonShowing:      true,
-            playPauseAnimation:     true,
-            fillToContainer:        true,
-            autoPlay:               false,
-            preload:                true,
-            mute:                   false,
-            doubleclickFullscreen:  true,
-            subtitlesEnabled:       false,
-            keyboardControl:        true,
-            layout:                 'default',
-            allowDownload:          true,
-            playbackRateEnabled:    false,
-            allowTheatre:           false,
-            title:                  false,
-            loop:                   true,
-            logo: {
-                imageUrl:           null,
-                position:           'top left',
-                clickUrl:           null,
-                opacity:            1
-            },
-            controlBar: {
-                autoHide:           true,
-                autoHideTimeout:    3,
-                animated:           true
-            },
-            playerInitCallback:     (function() {})
+          playButtonShowing:      true,
+          playPauseAnimation:     true,
+          fillToContainer:        true,
+          preload:                true,
+          doubleclickFullscreen:  true,
+          subtitlesEnabled:       false,
+          keyboardControl:        true,
+          layout:                 'default',
+          allowDownload:          true,
+          playbackRateEnabled:    false,
+          allowTheatre:           false,
+          loop:                   true,
+          controlBar: {
+              autoHide:           true,
+              autoHideTimeout:    3,
+              animated:           true
+          },
         }
+      });
     });
     </script>
-    <style>
-        html, body {
-            margin:0px;
-            height:100%;
-        }
-        #container {
-            position:absolute;
-            top:0px;
-            right:0px;
-            bottom:0px;
-            left:0px;
-        }
-    </style>
+    <style>html,body{margin:0px;height:100%;}#container{position:absolute;top:0px;right:0px;bottom:0px;left:0px;}</style>
 </head>
 <body>
-    
 </body>
 </html>
